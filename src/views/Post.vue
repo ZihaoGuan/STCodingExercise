@@ -1,12 +1,18 @@
 <template>
     <div class="container">
-      <h1>
-        {{ post.id }}
-      </h1>
-      <h1>
-        {{ post.title }}
-      </h1>
-      {{ post.body }}
+      <div class="jumbotron" v-if="post != undefined && getUserById(post.userId)!= undefined">
+        <h1>
+          {{ post.title }}
+        </h1>
+        <br>
+        <h5>
+          {{ getUserById(post.userId).name}}
+        </h5>
+        <br>
+        <p class = "text-left">
+          {{ post.body }}
+        </p>
+      </div>
     </div>
 </template>
 
@@ -16,7 +22,8 @@ export default {
   name: 'Post',
   computed: {
     ...mapGetters([
-      'getPostById'
+      'getPostById',
+      'getUserById'
     ]),
     post: function () {
       return this.getPostById(this.$route.params.id)
