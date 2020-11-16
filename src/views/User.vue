@@ -3,7 +3,7 @@
     <div class = "row justify-content-center">
       <div class = "col">
         <ul class = "list-group">
-          <li class = "list-group-item"
+          <li class = "list-group-item text-left"
           v-for="post in postList"
           :key="post.id">
             <router-link :to="`/post/${post.id}`">
