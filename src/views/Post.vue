@@ -6,7 +6,9 @@
         </h1>
         <br>
         <h5>
-          {{ getUserById(post.userId).name}}
+          <router-link :to="`/user/${post.userId}`">
+            {{ getUserById(post.userId).name}}
+          </router-link>
         </h5>
         <br>
         <p class = "text-left">
