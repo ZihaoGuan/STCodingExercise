@@ -15,6 +15,28 @@
 <script>
 
 export default {
-  name: 'Home'
+  name: 'Home',
+  mounted: function () {
+    fetch('https://jsonplaceholder.typicode.com/users', {
+      method: 'get'
+    })
+      .then((response) => {
+        return response.json()
+      })
+      .then((jsonData) => {
+        this.$store.state.users = jsonData
+        //console.log(this.$store.state.users)
+      })
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'get'
+    })
+      .then((response) => {
+        return response.json()
+      })
+      .then((jsonData) => {
+        this.$store.state.posts = jsonData
+        //console.log(this.$store.state.posts)
+      })
+  }
 }
 </script>
