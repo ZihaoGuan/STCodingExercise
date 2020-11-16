@@ -5,10 +5,9 @@
         <ul class = "list-group">
           <li class = "list-group-item text-left"
           v-for="post in postList"
-          :key="post.id">
-            <router-link :to="`/post/${post.id}`">
-              {{post.title}}
-            </router-link>
+          :key="post.id"
+          @click.prevent="goToPath(`${post.id}`)">
+            {{post.title}}
           </li>
         </ul>
       </div>
@@ -35,6 +34,9 @@ export default {
   methods: {
     checkId (post) {
       return post.userId.toString() === this.$route.params.id
+    },
+    goToPath (id) {
+      this.$router.push({ name: 'post', params: { id } })
     }
   },
   mounted: function () {
@@ -43,3 +45,10 @@ export default {
 }
 
 </script>
+
+<style scoped>
+.list-group-item:hover {
+  cursor: pointer;
+  background-color: lightgreen;
+}
+</style>

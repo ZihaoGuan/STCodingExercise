@@ -5,10 +5,9 @@
         <ul class = "list-group">
           <li class = "list-group-item text-left"
           v-for="user in users"
-          :key="user.id">
-            <router-link :to="`/user/${user.id}`">
-              {{user.name}}
-            </router-link>
+          :key="user.id"
+          @click.prevent="goToPath(`${user.id}`)">
+            {{user.name}}
           </li>
         </ul>
       </div>
@@ -25,6 +24,18 @@ export default {
     ...mapState([
       'users'
     ])
+  },
+  methods: {
+    goToPath (id) {
+      this.$router.push({ name: 'user', params: { id } })
+    }
   }
 }
 </script>
+
+<style scoped>
+.list-group-item:hover {
+  cursor: pointer;
+  background-color: lightgreen;
+}
+</style>
