@@ -6,7 +6,9 @@
           <li class = "list-group-item"
           v-for="user in users"
           :key="user.id">
-          {{user.name}}
+            <router-link :to="`/user/${user.id}`">
+              {{user.name}}
+            </router-link>
           </li>
         </ul>
       </div>
