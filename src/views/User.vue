@@ -25,7 +25,7 @@ export default {
       'posts'
     ]),
     postList: function () {
-      return this.posts.filter(this.checkId)
+      return this.posts.filter(this.checkId).sort((a, b) => (a.id < b.id) ? 1 : -1).slice(0, 10)
     }
   },
   data: function () {

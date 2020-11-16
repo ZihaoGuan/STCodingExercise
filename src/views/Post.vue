@@ -1,5 +1,11 @@
 <template>
-    <div>
+    <div class="container">
+      <h1>
+        {{ post.id }}
+      </h1>
+      <h1>
+        {{ post.title }}
+      </h1>
       {{ post.body }}
     </div>
 </template>
@@ -13,7 +19,6 @@ export default {
       'getPostById'
     ]),
     post: function () {
-      console.log('hey')
       return this.getPostById(this.$route.params.id)
     }
   }
