@@ -3,9 +3,11 @@
     <div class = "row justify-content-center">
       <div class = "col-6">
         <ul class = "list-group">
-          <li class = "list-group-item">1</li>
-          <li class = "list-group-item">2</li>
-          <li class = "list-group-item">3</li>
+          <li class = "list-group-item"
+          v-for="user in users"
+          :key="user.id">
+          {{user.name}}
+          </li>
         </ul>
       </div>
     </div>
@@ -13,9 +15,15 @@
 </template>
 
 <script>
-
+import { mapState } from 'vuex'
 export default {
+
   name: 'Home',
+  computed: {
+    ...mapState([
+      'users'
+    ])
+  },
   mounted: function () {
     fetch('https://jsonplaceholder.typicode.com/users', {
       method: 'get'
