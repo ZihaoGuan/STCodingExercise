@@ -62,7 +62,7 @@
           v-for="post in postList"
           :key="post.id"
           @click="goToPath(`${post.id}`, thisUser, post)">
-            {{post.title}}
+            No.{{post.id}}: {{post.title}}
             <button type="button" class="btn btn-pill btn-danger"
             @click.stop="deletePost(post.id)">
             X
