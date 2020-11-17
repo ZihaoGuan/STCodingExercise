@@ -58,11 +58,15 @@
           </div>
         </form>
         <ul class = "list-group">
-          <li class = "list-group-item text-left"
+          <li class = "list-group-item d-flex justify-content-between"
           v-for="post in postList"
           :key="post.id"
-          @click.prevent="goToPath(`${post.id}`)">
+          @click="goToPath(`${post.id}`)">
             {{post.title}}
+            <button type="button" class="btn btn-pill btn-danger"
+            @click.stop="deletePost(post.id)">
+            X
+            </button>
           </li>
         </ul>
         <br>
@@ -101,7 +105,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'addPost'
+      'addPost',
+      'deletePost'
     ]),
     checkId (post) {
       return post.userId.toString() === this.$route.params.id
@@ -124,7 +129,7 @@ export default {
         return
       }
       this.showAlert = false
-      this.addPost({ ...this.formData, userId: this.userId })
+      this.addPost({ ...this.formData, userId: parseInt(this.userId) })
       this.formData = {
         title: '',
         body: ''
