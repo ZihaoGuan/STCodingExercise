@@ -1,1 +1,1 @@
-# StrakerCodingExercise
+# CodingExercise
