@@ -9,7 +9,7 @@
           <li class = "list-group-item d-flex justify-content-between"
           v-for="user in users"
           :key="user.id"
-          @click.prevent="goToPath(`${user.id}`)">
+          @click.prevent="goToPath(`${user.id}`, user)">
             {{user.name}}
             <span class="badge badge-primary badge-pill">
               {{getPostCountByUserId(user.id)}}
@@ -36,8 +36,8 @@ export default {
     ])
   },
   methods: {
-    goToPath (id) {
-      this.$router.push({ name: 'user', params: { id } })
+    goToPath (id, user) {
+      this.$router.push({ name: 'user', params: { id, user } })
     }
   }
 }

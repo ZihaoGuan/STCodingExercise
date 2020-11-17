@@ -1,33 +1,33 @@
 <template>
-  <div class = "container">
+  <div class = "container" v-if="getUser() != undefined">
     <div class = "row">
       <div class = "col">
-        <div class = "jumbotron text-left" v-if="getUser() != undefined">
+        <div class = "jumbotron text-left">
           <h2>
-            {{user.name}}
+            {{thisUser.name}}
           </h2>
           <p class = "">
-            <b>ID:</b> {{user.id}}
+            <b>ID:</b> {{thisUser.id}}
           </p>
           <p>
-            <b>username:</b> {{user.username}}
+            <b>username:</b> {{thisUser.username}}
           </p>
           <p>
-            <b>email:</b> {{user.email}}
+            <b>email:</b> {{thisUser.email}}
           </p>
           <p>
             <b>address:</b>
             <br>
-            {{user.address.street}}<br>
-            {{user.address.suite}}<br>
-            {{user.address.city}}<br>
-            {{user.address.zipcode}}<br>
+            {{thisUser.address.street}}<br>
+            {{thisUser.address.suite}}<br>
+            {{thisUser.address.city}}<br>
+            {{thisUser.address.zipcode}}<br>
           </p>
           <p>
-            <b>phone:</b> {{user.phone}}
+            <b>phone:</b> {{thisUser.phone}}
           </p>
           <p>
-            <b>website:</b> {{user.website}}
+            <b>website:</b> {{thisUser.website}}
           </p>
         </div>
         <hr>
@@ -61,7 +61,7 @@
           <li class = "list-group-item d-flex justify-content-between"
           v-for="post in postList"
           :key="post.id"
-          @click="goToPath(`${post.id}`)">
+          @click="goToPath(`${post.id}`, thisUser, post)">
             {{post.title}}
             <button type="button" class="btn btn-pill btn-danger"
             @click.stop="deletePost(post.id)">
@@ -80,7 +80,8 @@ import { mapGetters, mapState, mapActions } from 'vuex'
 export default {
   name: 'User',
   props: [
-    'id'
+    'id',
+    'user'
   ],
   computed: {
     ...mapState([
@@ -99,7 +100,7 @@ export default {
   },
   data: function () {
     return {
-      user: undefined,
+      thisUser: undefined,
       showForm: false,
       showAlert: false,
       formData: {
@@ -116,14 +117,14 @@ export default {
     checkId (post) {
       return post.userId.toString() === this.id
     },
-    goToPath (id) {
-      this.$router.push({ name: 'post', params: { id } })
+    goToPath (id, user, post) {
+      this.$router.push({ name: 'post', params: { id, user, post } })
     },
     getUser () {
-      if (this.user === undefined) {
-        this.user = this.getUserById(this.id)
+      if (this.thisUser === undefined) {
+        this.thisUser = this.getUserById(this.id)
       }
-      return this.user
+      return this.thisUser
     },
     toggleForm () {
       this.showForm = !this.showForm
@@ -141,6 +142,9 @@ export default {
       }
       this.toggleForm()
     }
+  },
+  mounted () {
+    this.thisUser = this.user
   }
 }
 

@@ -1,18 +1,18 @@
 <template>
-    <div class="container">
-      <div class="jumbotron" v-if="getPost() != undefined && getAuthor() != undefined">
+    <div class="container"  v-if="getPost() !== undefined && getAuthor() !== undefined">
+      <div class="jumbotron">
         <h1>
-          {{ post.title }}
+          {{ thisPost.title }}
         </h1>
         <br>
         <h5>
-          <router-link :to="`/user/${post.userId}`">
+          <router-link :to="`/user/${thisPost.userId}`">
             {{ author.name}}
           </router-link>
         </h5>
         <br>
         <p class = "text-left">
-          {{ post.body }}
+          {{ thisPost.body }}
         </p>
       </div>
     </div>
@@ -23,11 +23,13 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Post',
   props: [
-    'id'
+    'id',
+    'user',
+    'post'
   ],
   data: function () {
     return {
-      post: undefined,
+      thisPost: undefined,
       aurhor: undefined
     }
   },
@@ -39,17 +41,21 @@ export default {
   },
   methods: {
     getPost () {
-      if (this.post === undefined) {
-        this.post = this.getPostById(this.id)
+      if (this.thisPost === undefined) {
+        this.thisPost = this.getPostById(this.id)
       }
-      return this.post
+      return this.thisPost
     },
     getAuthor () {
       if (this.author === undefined) {
-        this.author = this.getUserById(this.post.userId)
+        this.author = this.getUserById(this.thisPost.userId)
       }
       return this.author
     }
+  },
+  mounted () {
+    this.thisPost = this.post
+    this.aurhor = this.user
   }
 }
 </script>
