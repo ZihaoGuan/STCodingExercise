@@ -80,7 +80,7 @@ export default {
       if (this.user === undefined) {
         this.user = this.getUserById(this.userId)
       }
-      return this.getUserById(this.userId)
+      return this.user
     }
   }
 }
