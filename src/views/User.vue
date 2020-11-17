@@ -36,6 +36,9 @@
         </h1>
         <button @click="toggleForm" class ="btn btn-primary mb-2">Add New Post</button>
         <form @submit.prevent="handleSubmit" v-if="showForm" >
+          <div class = "alert alert-danger row" role="alert" v-if="showAlert">
+            Please fill in title and content.
+          </div>
           <div class="form-group row">
             <label for="posttitle" class="col-sm-2 col-form-label text-left">Title</label>
             <div class="col-sm-10">
@@ -89,6 +92,7 @@ export default {
       userId: this.$route.params.id,
       user: undefined,
       showForm: false,
+      showAlert: false,
       formData: {
         title: '',
         body: ''
@@ -115,6 +119,11 @@ export default {
       this.showForm = !this.showForm
     },
     handleSubmit () {
+      if (this.formData.title === '' || this.formData.body === '') {
+        this.showAlert = true
+        return
+      }
+      this.showAlert = false
       this.addPost({ ...this.formData, userId: this.userId })
       this.formData = {
         title: '',
