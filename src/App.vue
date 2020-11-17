@@ -41,7 +41,6 @@ export default {
       })
       .then((jsonData) => {
         this.$store.state.users = jsonData
-        // console.log(this.$store.state.users)
       })
     fetch('https://jsonplaceholder.typicode.com/posts', {
       method: 'get'
@@ -51,7 +50,6 @@ export default {
       })
       .then((jsonData) => {
         this.$store.state.posts = jsonData
-        // console.log(this.$store.state.posts)
       })
   }
 }

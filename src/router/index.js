@@ -15,12 +15,14 @@ const routes = [
   {
     path: '/user/:id',
     name: 'user',
-    component: User
+    component: User,
+    props: true
   },
   {
     path: '/post/:id',
     name: 'post',
-    component: Post
+    component: Post,
+    props: true
   }
 ]
 

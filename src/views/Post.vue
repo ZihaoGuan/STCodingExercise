@@ -22,6 +22,9 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'Post',
+  props: [
+    'id'
+  ],
   data: function () {
     return {
       post: undefined,
@@ -37,7 +40,7 @@ export default {
   methods: {
     getPost () {
       if (this.post === undefined) {
-        this.post = this.getPostById(this.$route.params.id)
+        this.post = this.getPostById(this.id)
       }
       return this.post
     },

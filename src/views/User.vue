@@ -79,6 +79,9 @@
 import { mapGetters, mapState, mapActions } from 'vuex'
 export default {
   name: 'User',
+  props: [
+    'id'
+  ],
   computed: {
     ...mapState([
       'posts',
@@ -88,12 +91,14 @@ export default {
       'getUserById'
     ]),
     postList: function () {
+      // here we firstly retrieve the post list of this user,
+      // then sort them by postId in descending order(assume that the bigger an id is, the newer a post was created)
+      // lastly take the recent 10 posts from the array
       return this.posts.filter(this.checkId).sort((a, b) => (a.id < b.id) ? 1 : -1).slice(0, 10)
     }
   },
   data: function () {
     return {
-      userId: this.$route.params.id,
       user: undefined,
       showForm: false,
       showAlert: false,
@@ -109,14 +114,14 @@ export default {
       'deletePost'
     ]),
     checkId (post) {
-      return post.userId.toString() === this.$route.params.id
+      return post.userId.toString() === this.id
     },
     goToPath (id) {
       this.$router.push({ name: 'post', params: { id } })
     },
     getUser () {
       if (this.user === undefined) {
-        this.user = this.getUserById(this.userId)
+        this.user = this.getUserById(this.id)
       }
       return this.user
     },
@@ -129,7 +134,7 @@ export default {
         return
       }
       this.showAlert = false
-      this.addPost({ ...this.formData, userId: parseInt(this.userId) })
+      this.addPost({ ...this.formData, userId: parseInt(this.id) })
       this.formData = {
         title: '',
         body: ''
