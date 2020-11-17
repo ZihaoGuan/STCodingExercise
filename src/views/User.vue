@@ -34,6 +34,26 @@
         <h1>
           POSTS
         </h1>
+        <button @click="toggleForm" class ="btn btn-primary mb-2">Add New Post</button>
+        <form @submit.prevent="handleSubmit" v-if="showForm" >
+          <div class="form-group row">
+            <label for="posttitle" class="col-sm-2 col-form-label text-left">Title</label>
+            <div class="col-sm-10">
+            <input type="text" class="form-control" id="posttitle" placeholder="Title" v-model="formData.title">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="posttext" class="col-sm-2 col-form-label text-left">Content</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" id="posttext" rows="3" v-model="formData.body"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col">
+              <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+          </div>
+        </form>
         <ul class = "list-group">
           <li class = "list-group-item text-left"
           v-for="post in postList"
@@ -42,13 +62,14 @@
             {{post.title}}
           </li>
         </ul>
+        <br>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 export default {
   name: 'User',
   computed: {
@@ -66,10 +87,18 @@ export default {
   data: function () {
     return {
       userId: this.$route.params.id,
-      user: undefined
+      user: undefined,
+      showForm: false,
+      formData: {
+        title: '',
+        body: ''
+      }
     }
   },
   methods: {
+    ...mapActions([
+      'addPost'
+    ]),
     checkId (post) {
       return post.userId.toString() === this.$route.params.id
     },
@@ -81,6 +110,17 @@ export default {
         this.user = this.getUserById(this.userId)
       }
       return this.user
+    },
+    toggleForm () {
+      this.showForm = !this.showForm
+    },
+    handleSubmit () {
+      this.addPost({ ...this.formData, userId: this.userId })
+      this.formData = {
+        title: '',
+        body: ''
+      }
+      this.toggleForm()
     }
   }
 }
