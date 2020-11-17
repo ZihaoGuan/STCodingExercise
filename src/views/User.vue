@@ -2,7 +2,7 @@
   <div class = "container">
     <div class = "row">
       <div class = "col">
-        <div class = "jumbotron text-left" v-if="user != undefined">
+        <div class = "jumbotron text-left" v-if="getUser() != undefined">
           <h2>
             {{user.name}}
           </h2>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'User',
   computed: {
@@ -56,16 +56,17 @@ export default {
       'posts',
       'users'
     ]),
+    ...mapGetters([
+      'getUserById'
+    ]),
     postList: function () {
       return this.posts.filter(this.checkId).sort((a, b) => (a.id < b.id) ? 1 : -1).slice(0, 10)
-    },
-    user: function () {
-      return this.users.find((user) => user.id.toString() === this.userId.toString())
     }
   },
   data: function () {
     return {
-      userId: this.$route.params.id
+      userId: this.$route.params.id,
+      user: undefined
     }
   },
   methods: {
@@ -74,6 +75,12 @@ export default {
     },
     goToPath (id) {
       this.$router.push({ name: 'post', params: { id } })
+    },
+    getUser () {
+      if (this.user === undefined) {
+        this.user = this.getUserById(this.userId)
+      }
+      return this.getUserById(this.userId)
     }
   }
 }
